@@ -1,0 +1,72 @@
+<% layout('layouts/boilerplate') %>
+  <div class="row">
+    <div class="col-6 offset-3">
+      <div class="mb-3">
+        <label for="name">First Name</label>
+        <input readonly type="text" name="name" id="name" class="form-control" value="<%= lead.name %>">
+      </div>
+      <div class="mb-3">
+        <label for="lastName">Last Name</label>
+        <input readonly type="text" name=lastName class="form-control" value="<%= lead.lastName %>">
+      </div>
+      <div class="mb-3">
+        <label for="email">Email</label>
+        <input readonly type="text" name="email" class="form-control" id="email" value="<%= lead.email %>">
+      </div>
+      <div class="mb-3">
+        <label for="phonenumber">Phone number</label>
+        <input readonly type="text" name="phonenumber" class="form-control" id="phonenumber"
+          value="<%= lead.phonenumber %>">
+      </div>
+      <div class="mb-3">
+        <label for="address">Address</label>
+        <input readonly type="text" class="form-control" id="address" name="address" value="<%= lead.address%>">
+      </div>
+      <div class="mb-3">
+        <label for="city">City</label>
+        <input readonly type="text" class="form-control" id="city" name="city" value="<%= lead.city %>">
+      </div>
+      <div class="mb-3">
+        <label for="inputState">State</label>
+        <select disabled read id="inputState" class="form-control">
+          <% for (let state of states){ %>
+            <option value="<%=state%>" <%=lead.state===state ? 'selected' : ' ' %>><%=state%>
+            </option>
+            <% } %>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="zipcode">Zip</label>
+        <input readonly type="text" class="form-control" id="zipcode" name="zipcode" value="<%= lead.zipcode%>">
+      </div>
+      <div class="mb-3">
+        <label class="form-check-label" for="status">
+          Contact Status
+        </label>
+        <select disabled class="form-select" aria-label="Default select example" name="status" id="status">
+          <% for (let stat of status){ %>
+            <option value="<%=stat%>" <%=lead.status===stat ? 'selected' : ' ' %>><%=stat%>
+            </option>
+            <% } %>
+
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="notes">Notes</label>
+        <textarea readonly class="form-control" id="notes" rows="3" name="notes"><%=lead.notes%></textarea>
+      </div>
+
+      <div class="btn-group">
+        <a class="btn btn-primary" href="/leads/<%=lead._id%>/edit">Edit lead</a>
+
+        <form action="/leads/<%=lead._id%>?_method=DELETE" method="POST">
+          <button class="btn btn-danger">Delete</button>
+        </form>
+
+        <a class="btn btn-secondary" href="/leads">Back Home</a>
+      </div>
+
+
+      </form>
+
+    </div>

@@ -1,0 +1,91 @@
+<!--<% layout('layouts/boilerplate') %> 
+   <h1> Edit lead</h1>
+    <form action="/leads/<%= lead._id %>?_method=PUT" method="POST">
+        <label for="name">Lead Name</label>
+        <input type="text" name="name" id="name" placeholder=" lead name" value="<%= lead.name %>">
+        
+        <label for="email">Lead Email</label>
+        <input type="text" name="email" id="email"  placeholder="email" value="<%= lead.email %>">
+        
+        <label for="phonenumber">Lead Phone Number</label>
+        <input type="text" name="phonenumber" id="phonenumber" placeholder="phone number" value="">
+
+        <button>submit</button>
+    </form>
+    <a href="/leads/<%= lead._id %>">cancel</a>
+-->
+
+<div class="row">
+  <h1 class="text-center">Edit Lead</h1>
+  <div class="col-6 offset-3">
+
+  <form action="/leads/<%= lead._id %>?_method=PUT" method="POST" class="validated-form" novalidate >
+  <div class="mb-3">
+    <label for="name">First Name</label>
+    <input type="text" name="name" id="name" class="form-control" value="<%= lead.name %>" required>
+  </div>
+  <div class="mb-3">
+    <label for="lastName">Last Name</label>
+    <input type="text" name=lastName class="form-control" value="<%= lead.lastName %>" required>
+  </div>
+  <div class="mb-3">
+    <label for="email">Email</label>
+    <input type="email" name="email" class="form-control" id="email" value="<%= lead.email %>" required>
+    <div class="invalid-feedback">
+      Please provide a valid e-mail.
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="phonenumber">Phone number</label>
+    <input type="text" name="phonenumber" class="form-control" id="phonenumber" value="<%= lead.phonenumber %>" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="address">Address</label>
+    <input type="text" class="form-control" id="address" name="address" value="<%= lead.address%>" required>
+  </div>
+  <div class="mb-3">
+    <label for="city">City</label>
+    <input type="text" class="form-control" id="city" name="city" value="<%= lead.city%>" required>
+  </div>
+  <div class="mb-3">
+    <label for="state">State</label>
+    <select id="state" name=state class="form-control" required>
+      <option selected>Select State</option>
+      <% for (let state of states){ %>
+        <option value="<%=state%>" <%=lead.state===state ? 'selected' : ' ' %>><%=state%>
+        </option>
+        <% } %>
+    </select>
+  </div>
+  <div class="mb-3">
+    <label for="zipcode">Zipcode</label>
+    <input type="text" class="form-control" id="zipcode" name="zipcode" value="<%= lead.zipcode%>" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-check-label" for="status">
+      Contact Status
+    </label>
+    <select class="form-select" aria-label="Default select example" name="status" id="status" required>
+      <% for (let stat of status){ %>
+        <option value="<%=stat%>" <%=lead.status===stat ? 'selected' : ' ' %>><%=stat%>
+        </option>
+        <% } %>
+
+    </select>
+  </div>
+  <div class="mb-3">
+    <label for="notes">Notes</label>
+    <textarea class="form-control" id="notes" rows="3" name="notes"><%=lead.notes%></textarea>
+  </div>
+  <div class="btn-group">
+    <button class="btn btn-primary">Submit</button>
+    <a class="btn btn-secondary" href="/leads">Cancel</a>
+  </div>
+
+
+
+
+</form>
