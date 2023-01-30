@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+  require('dotenv').config();
+}
+
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -6,14 +10,19 @@ const methodOverride = require('method-override');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const ejsMate = require('ejs-mate');
+const flash = require('connect-flash');
+const session = require('express-session');
+const passport= require ('passport');
+const LocalStrategy = (require('passport-local'));
+const User = require('./models/user');
 
-const port = 3000
-const { leadSchema } = require('./schemas.js');
-const Lead = require('./models/leads');
 
-const status= ['Contacted', 'Not contacted']
-const states= ['Alabama','Alaska','American Samoa','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','District of Columbia','Federated States of Micronesia','Florida','Georgia','Guam','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Marshall Islands','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Northern Mariana Islands','Ohio','Oklahoma','Oregon','Palau','Pennsylvania','Puerto Rico','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virgin Island','Virginia','Washington','West Virginia','Wisconsin','Wyoming']
-let today = new Date().toLocaleDateString();
+
+// user and leads routes
+const leadsRoutes = require('./routes/leads')
+const userRoutes = require('./routes/users')
+
+//mongo db
 
 mongoose.connect('mongodb://127.0.0.1:27017/crm-app');
 
@@ -24,79 +33,46 @@ db.once("open", () => {
 });
 
 
-app.use(express.urlencoded({ extended: true }))
-app.use(methodOverride('_method'))
-app.use(express.static(path.join(__dirname, '/public')))
-
+//views
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, '/views'))
 
 
 
-const validateLead = (req, res, next) => {
-  const { error } = leadSchema.validate(req.body);
-  if (error) {
-      const msg = error.details.map(el => el.message).join(',')
-      throw new ExpressError(msg, 400)
-  } else {
-      next();
+app.use(express.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
+app.use(express.static(path.join(__dirname, '/public')))
+
+
+const sessionConfig = {
+  secret: 'thisshouldbeabettersecret!',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+      httpOnly: true,
+      expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+      maxAge: 1000 * 60 * 60 * 24 * 7
   }
 }
 
+app.use(session(sessionConfig))
+app.use(flash());
 
-
-app.get('/leads', catchAsync(async (req, res) => {
-  const leads = await Lead.find({})
-  const title ='Leads'
-  console.log(req.params)
-  res.render('leads/index', { leads, title })
-
-}))
-
-app.get('/leads/new', (req, res) => {
-  const title = 'Create new lead'
-  res.render('leads/new', {title, status, states})
+app.use((req, res, next) => {
+ res.locals.success = req.flash('success');
+  next();
 })
 
-app.get('/leads/:id', catchAsync(async (req, res) => {
-  const { id } = req.params;
-  const lead = await Lead.findById(id)
-  const title = `${lead.name} ${lead.lastName}`
-  res.render('leads/show', { lead, title, status, states })
-}))
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
 
-app.get('/leads/:id/edit',catchAsync (async (req, res) => {
-  const { id } = req.params;
-  const lead = await Lead.findById(id)
-  const title = `Edit ${lead.name} ${lead.lastName}`
-  res.render('leads/edit', { lead, title, status, states })
-}))
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
-app.put('/leads/:id', validateLead, catchAsync(async (req, res) => {
-  const {id} = req.params;
-  req.body.lastUpdated = `${today}`;
-  const lead= await Lead.findByIdAndUpdate(id, req.body, {runValidators: true, new: true})
-  console.log(req.body);
-  res.redirect(`/leads/${lead._id}`)
-}))
-
-app.post('/leads', validateLead, catchAsync(async (req, res) => {
-  // adds time stamp to the request body object
-  req.body.created = `${today}`;
-  const newLead = new Lead(req.body);
-  await newLead.save();
-  console.log(req.body)
-  res.redirect(`/leads/${newLead._id}`)
-}))
-
-app.delete('/leads/:id', catchAsync(async (req, res) => {
-  const {id} = req.params;
-  const deletedLead = await Lead.findByIdAndDelete(id);
-  res.redirect('/leads');
-}))
-
-
+app.use('/', userRoutes);
+app.use('/', leadsRoutes)
 
 
 app.all('*', (req, res, next) => {
@@ -112,5 +88,6 @@ app.use((err, req, res, next) => {
 
 
 app.listen(3000, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log('Serving on port 3000')
 })
+
