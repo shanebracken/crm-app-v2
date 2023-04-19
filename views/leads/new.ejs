@@ -20,17 +20,17 @@
       
       <form action="/leads" method="POST" class=" needs-validation" novalidate>
         <div class="mb-3">
-                <label class="form-label" for="name">First Name</label>
+                <label  for="name" class="form-label fw-bold">First Name</label>
           <input class="form-control" type="text" name="name" id="name" class="form-control" placeholder="John" required>
         </div>
 
         <div class="mb-3">
-                <label for=" lastName">Last Name</label>
+                <label for=" lastName" class="form-label fw-bold">Last Name</label>
           <input type="text" name=lastName class="form-control" placeholder="Doe" required>
         </div>
        
         <div class="mb-3">
-            <label for=" email">Email</label>
+            <label for=" email" class="form-label fw-bold">Email</label>
           <input type="email" name="email" class="form-control" id="email" placeholder="Email" required>
           <div class="invalid-feedback">
           Please provide a valid e-mail.
@@ -39,22 +39,22 @@
         
        
         <div class="mb-3">
-          <label for=" phonenumber">Phone number</label>
+          <label for=" phonenumber" class="form-label fw-bold">Phone number</label>
           <input type="text" name="phonenumber" class="form-control" id="phonenumber" placeholder="xxx-xxx-xxxx" required>
         </div>
        
         <div class="mb-3">
-             <label for=" address">Address</label>
+             <label for=" address" class="form-label fw-bold">Address</label>
           <input type="text" class="form-control" id="address" placeholder="1234 Main St" name="address" required>
         </div>
        
         <div class="mb-3">
-            <label for=" city">City</label>
+            <label for=" city" class="form-label fw-bold">City</label>
           <input type="text" class="form-control" id="city" name="city" required >
         </div>
        
         <div class="mb-3">
-            <label for=" state">State</label>
+            <label for=" state" class="form-label fw-bold">State</label>
           <select id="state" name=state class="form-control" required>
             <option disabled selected hidden value="">Select State</option>
             <% for (let state of states){ %>
@@ -65,12 +65,12 @@
           </select>
 
           <div class="mb-3">
-            <label>Zip</label>
+            <label class="form-label fw-bold">Zip</label>
             <input type=" text" class="form-control" id="zipcode" name="zipcode" required>
           </div>
        
           <div class="mb-3">
-            <label class=" form-check-label" for="status">Contact Status</label>
+            <label  for="status" class="form-label fw-bold">Contact Status</label>
             <select class="form-select" aria-label="Default select example" name="status" id="status" required>
               <option disabled selected hidden value="">Select contact status</option>
               <% for (let stat of status){ %>
@@ -82,13 +82,13 @@
           </div>
           
           <div class="mb-3">
-            <label for=" notes">Notes</label>
+            <label for=" notes" class="form-label fw-bold">Notes</label>
             <textarea class="form-control" id="notes" rows="3" name="notes" placeholder="Leave notes here" ></textarea>
           </div>
         </div>
         
         <button class="btn btn-primary">Submit</button>
-        <a class=" btn btn-secondary" href="/leads">cancel</a>
+        <a class=" btn btn-secondary" href="/leads">Cancel</a>
 
       </form>
 

@@ -56,15 +56,17 @@
         <textarea readonly class="form-control" id="notes" rows="3" name="notes"><%=lead.notes%></textarea>
       </div>
 
-      <div class="btn-group">
-        <a class="btn btn-primary" href="/leads/<%=lead._id%>/edit">Edit lead</a>
+      <div class="btn-group d-flex justify-content-center">
+  <a class="btn btn-primary btn-lg mx-1" href="/leads/<%=lead._id%>/edit">Edit lead</a>
 
-        <form action="/leads/<%=lead._id%>?_method=DELETE" method="POST">
-          <button class="btn btn-danger">Delete</button>
-        </form>
+  <form action="/leads/<%=lead._id%>?_method=DELETE" method="POST">
+    <button class="btn btn-danger btn-lg mx-1">Delete</button>
+  </form>
 
-        <a class="btn btn-secondary" href="/leads">Back Home</a>
-      </div>
+  <a class="btn btn-secondary btn-lg mx-1" href="/leads">Back Home</a>
+</div>
+
+      
 
 
       </form>

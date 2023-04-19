@@ -16,20 +16,20 @@
 -->
 
 <div class="row">
-  <h1 class="text-center">Edit Lead</h1>
+  <h1 class="text-center">Edit Lead</h1> 
   <div class="col-6 offset-3">
 
   <form action="/leads/<%= lead._id %>?_method=PUT" method="POST" class="validated-form" novalidate >
   <div class="mb-3">
-    <label for="name">First Name</label>
+    <label for="name" class="form-label fw-bold">First Name</label>
     <input type="text" name="name" id="name" class="form-control" value="<%= lead.name %>" required>
   </div>
   <div class="mb-3">
-    <label for="lastName">Last Name</label>
+    <label for="lastName" class="form-label fw-bold">Last Name</label>
     <input type="text" name=lastName class="form-control" value="<%= lead.lastName %>" required>
   </div>
   <div class="mb-3">
-    <label for="email">Email</label>
+    <label for="email" class="form-label fw-bold">Email</label>
     <input type="email" name="email" class="form-control" id="email" value="<%= lead.email %>" required>
     <div class="invalid-feedback">
       Please provide a valid e-mail.
@@ -37,20 +37,20 @@
   </div>
 
   <div class="mb-3">
-    <label for="phonenumber">Phone number</label>
+    <label for="phonenumber" class="form-label fw-bold">Phone number</label>
     <input type="text" name="phonenumber" class="form-control" id="phonenumber" value="<%= lead.phonenumber %>" required>
   </div>
 
   <div class="mb-3">
-    <label for="address">Address</label>
+    <label for="address" class="form-label fw-bold">Address</label>
     <input type="text" class="form-control" id="address" name="address" value="<%= lead.address%>" required>
   </div>
   <div class="mb-3">
-    <label for="city">City</label>
+    <label for= "city" class="form-label fw-bold">City</label>
     <input type="text" class="form-control" id="city" name="city" value="<%= lead.city%>" required>
   </div>
   <div class="mb-3">
-    <label for="state">State</label>
+    <label for="state" class="form-label fw-bold">State</label>
     <select id="state" name=state class="form-control" required>
       <option selected>Select State</option>
       <% for (let state of states){ %>
@@ -60,12 +60,12 @@
     </select>
   </div>
   <div class="mb-3">
-    <label for="zipcode">Zipcode</label>
+    <label for="zipcode" class="form-label fw-bold">Zipcode</label>
     <input type="text" class="form-control" id="zipcode" name="zipcode" value="<%= lead.zipcode%>" required>
   </div>
 
   <div class="mb-3">
-    <label class="form-check-label" for="status">
+    <label class="form-check-label form-label fw-bold"  for="status">
       Contact Status
     </label>
     <select class="form-select" aria-label="Default select example" name="status" id="status" required>
@@ -78,12 +78,18 @@
   </div>
   <div class="mb-3">
     <label for="notes">Notes</label>
-    <textarea class="form-control" id="notes" rows="3" name="notes"><%=lead.notes%></textarea>
+    <textarea readonly class="form-control" id="notes" rows="3" name="notes"><%=lead.notes%></textarea>
   </div>
-  <div class="btn-group">
-    <button class="btn btn-primary">Submit</button>
-    <a class="btn btn-secondary" href="/leads">Cancel</a>
+
+  <div class="d-flex justify-content-center">
+    <div class="btn-group">
+      <button class="btn btn-primary btn-lg mx-1" type="submit">Save Changes</button>
+    </div>
+    <div class="btn-group ">
+      <a class="btn btn-secondary btn-lg mx-1" href="/leads">Cancel</a>
+    </div>
   </div>
+  
 
 
 

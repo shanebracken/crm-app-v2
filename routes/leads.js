@@ -7,7 +7,7 @@ const leads = require('../controllers/leads');
 const ExpressError = require('../utils/ExpressError');
 const Lead = require('../models/leads');
 
-const {validateLead} = require('../middleware');
+const {validateLead, isLoggedIn} = require('../middleware');
 
 
 
